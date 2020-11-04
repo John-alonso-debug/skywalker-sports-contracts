@@ -8,9 +8,9 @@
 
 ### add .env 
 - KOVAN_account=0xAAAAAAAA
-  KOVAN_privateKey=0xBBBBBBBBB
+- KOVAN_privateKey=0xBBBBBBBBB
 - MAINNET_account=0xAAAAAAAA
-  MAINNET_privateKey=0xBBBBBBBBB
+- MAINNET_privateKey=0xBBBBBBBBB
 
 ### 
 - Kovan Testnet
