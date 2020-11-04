@@ -12,6 +12,9 @@
 - MAINNET_account=0xAAAAAAAA
 - MAINNET_privateKey=0xBBBBBBBBB
 
-### 
-- Kovan Testnet
-> truffle migration --network kovan  
+### install
+- yarn
+- yarn install
+- touch .env
+- edit .env and put privatekey and account
+- truffle migration --network kovan  
