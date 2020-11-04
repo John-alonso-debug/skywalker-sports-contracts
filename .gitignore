@@ -1,0 +1,8 @@
+node_modules
+package-lock.json
+build/contracts
+personal
+.env
+yarn-error.log
+yarn.lock
+.idea
