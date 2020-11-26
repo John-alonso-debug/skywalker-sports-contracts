@@ -73,22 +73,27 @@ contract ERC20Wrapper is ERC20, ERC1155Receiver {
      * - if the msg.sender is not augurFoundry or _account then the caller must have allowance for ``_account``'s tokens of at least
      * `amount`.
      * - if the market has finalized then claim() function should be called.
-     * @param _account account the newly minted ERC20s will go to
+     * @param _holder account that has the wrapped tokens
+     * @param _recipient account that will get the sharetokens
      * @param _amount amount of tokens to be unwrapped
      */
-    function unWrapTokens(address _account, uint256 _amount) public {
-        if (msg.sender != _account && msg.sender != augurFoundry) {
-            uint256 decreasedAllowance = allowance(_account, msg.sender).sub(
+    function unWrapTokens(
+        address _holder,
+        address _recipient,
+        uint256 _amount
+    ) public {
+        if (msg.sender != _holder && msg.sender != augurFoundry) {
+            uint256 decreasedAllowance = allowance(_holder, msg.sender).sub(
                 _amount,
                 "ERC20: burn amount exceeds allowance"
             );
-            _approve(_account, msg.sender, decreasedAllowance);
+            _approve(_holder, msg.sender, decreasedAllowance);
         }
-        _burn(_account, _amount);
+        _burn(_holder, _amount);
 
         shareToken.safeTransferFrom(
             address(this),
-            _account,
+            _recipient,
             tokenId,
             _amount,
             ""

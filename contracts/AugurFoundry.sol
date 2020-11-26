@@ -161,11 +161,11 @@ contract AugurFoundry is ERC1155Receiver {
     ) public {
         uint256[] memory tokenIds = shareToken.getTokenIds(_market, OUTCOMES);
         for (uint256 i = 0; i < tokenIds.length; i++) {
-            unWrapTokens(tokenIds[i], _amount);
+            unWrapTokens(tokenIds[i], _amount, address(this));
         }
         shareToken.sellCompleteSets(
             _market,
-            msg.sender,
+            address(this),
             _recipient,
             _amount,
             _fingerprint
@@ -181,9 +181,13 @@ contract AugurFoundry is ERC1155Receiver {
      * @param _tokenId token id associated with a outcome of a market
      * @param _amount amount of tokens to be unwrapped
      */
-    function unWrapTokens(uint256 _tokenId, uint256 _amount) public {
+    function unWrapTokens(
+        uint256 _tokenId,
+        uint256 _amount,
+        address _receipient
+    ) public {
         ERC20Wrapper erc20Wrapper = ERC20Wrapper(wrappers[_tokenId]);
-        erc20Wrapper.unWrapTokens(msg.sender, _amount);
+        erc20Wrapper.unWrapTokens(msg.sender, _receipient, _amount);
     }
 
     /**@dev wraps multiple tokens */
@@ -200,10 +204,11 @@ contract AugurFoundry is ERC1155Receiver {
     /**@dev unwraps multiple tokens */
     function unWrapMultipleTokens(
         uint256[] memory _tokenIds,
-        uint256[] memory _amounts
+        uint256[] memory _amounts,
+        address _receiver
     ) public {
         for (uint256 i = 0; i < _tokenIds.length; i++) {
-            unWrapTokens(_tokenIds[i], _amounts[i]);
+            unWrapTokens(_tokenIds[i], _amounts[i], _receiver);
         }
     }
 
