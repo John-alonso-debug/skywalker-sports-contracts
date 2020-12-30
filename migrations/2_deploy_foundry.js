@@ -23,4 +23,6 @@ module.exports = async function (deployer, networks, accounts) {
         addresses.Augur,
         1000
     )
+
 }
+
