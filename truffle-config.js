@@ -17,8 +17,9 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+require("dotenv").config();
 
-//const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
@@ -37,6 +38,12 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    etherscan: process.env.API_KEY
+  },
   //contracts_directory: "./contracts/someStuff/theContractFolder",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
@@ -46,16 +53,26 @@ module.exports = {
     // options below to some value.
     kovan: {
       networkCheckTimeout: 10000,
-      provider: () => new PrivateKeyProvider(process.env.KOVAN_privateKey, "https://kovan.infura.io/v3/043e74aaf32544e6bceb3eb06dd98176"),
+      // provider: () => new PrivateKeyProvider(process.env.KOVAN_privateKey, "https://kovan.infura.io/v3/043e74aaf32544e6bceb3eb06dd98176"),
+      provider: () => new HDWalletProvider(process.env.PRIVATE_KEY_KOVAN, "https://kovan.infura.io/v3/043e74aaf32544e6bceb3eb06dd98176"),
+      
       network_id: 42,
       from: process.env.KOVAN_account,
       gas: 8000000,
       skipDryRun: true,
       confirmations: 0,
     },
+    develop: {
+      host: "127.0.0.1",
+      port:8545,
+      network_id: 103,
+      accounts: 5,
+      defaultEtherBalance: 500,
+      blockTime: 3
+    },
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
+     port: 8000,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
     // Another network with more advanced options...
